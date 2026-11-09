@@ -1,0 +1,472 @@
+/* =========================================================
+   sections.css: ocean, captain's log, powers, treasure map,
+   join the crew, deep-sea footer
+   ========================================================= */
+
+/* the page gets darker as you sail deeper */
+.ocean {
+  position: relative;
+  background: linear-gradient(180deg,
+    var(--ocean-1) 0%, var(--ocean-2) 28%, var(--ocean-3) 58%, var(--ocean-4) 88%, var(--abyss) 100%);
+}
+.ocean::before {
+  /* sunlight rays under the surface */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 900px;
+  pointer-events: none;
+  background:
+    linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.05) 24%, transparent 30%),
+    linear-gradient(80deg, transparent 52%, rgba(255, 255, 255, 0.045) 56%, transparent 62%),
+    linear-gradient(95deg, transparent 72%, rgba(255, 255, 255, 0.04) 75%, transparent 80%);
+  -webkit-mask-image: linear-gradient(#000, transparent);
+          mask-image: linear-gradient(#000, transparent);
+}
+
+.section { position: relative; padding-block: clamp(64px, 11vh, 120px); }
+
+.section__head { margin-bottom: clamp(28px, 5vw, 44px); }
+.section__head h2 {
+  font-family: var(--font-pirate);
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 1;
+  color: var(--foam);
+  text-shadow: 4px 4px 0 rgba(4, 18, 34, 0.55);
+}
+.section__sub { margin: 8px 0 0; font-weight: 600; color: var(--foam-2); }
+
+.sub-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-bottom: 18px;
+  font-family: var(--font-pirate);
+  font-size: 2rem;
+  line-height: 1.1;
+}
+.sub-title small { font-family: var(--font-body); font-size: 0.9rem; font-weight: 700; opacity: 0.75; }
+
+/* shared parchment surface */
+.scroll,
+.crew-card,
+.chest,
+.map {
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 25% 15%, rgba(255, 250, 235, 0.6), transparent 55%),
+    radial-gradient(ellipse at 50% 50%, #f6e8c6 0%, #ecd7a6 70%, #d9b97a 100%);
+  box-shadow:
+    inset 0 0 40px rgba(110, 70, 20, 0.32),
+    0 24px 44px -22px rgba(0, 0, 0, 0.7);
+}
+
+/* =========================================================
+   CHAPTER 1: CAPTAIN'S LOG
+   ========================================================= */
+.log {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: clamp(24px, 4vw, 44px);
+  align-items: start;
+}
+
+.scroll {
+  position: relative;
+  margin-block: 18px;
+  padding: clamp(28px, 4vw, 44px);
+  border-radius: 6px;
+}
+/* rolled ends of the scroll */
+.scroll::before,
+.scroll::after {
+  content: "";
+  position: absolute;
+  left: -12px;
+  right: -12px;
+  height: 26px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #e2c58a, #c9a462 55%, #a9834a);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.scroll::before { top: -14px; }
+.scroll::after { bottom: -14px; }
+
+.scroll p { margin: 0 0 16px; }
+.scroll__entry {
+  font-family: var(--font-pirate);
+  font-size: 1.35rem;
+  color: var(--red-deep);
+}
+.scroll__sign {
+  margin: 22px 0 0 !important;
+  font-family: var(--font-pirate);
+  font-size: 1.6rem;
+}
+.scroll__sign::before { content: "~ "; }
+
+.seal {
+  position: absolute;
+  right: clamp(20px, 4vw, 40px);
+  bottom: 22px;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e85d5d, var(--red) 55%, #7d1016);
+  box-shadow: inset 0 0 0 5px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.35);
+  font-family: var(--font-pirate);
+  font-size: 1.9rem;
+  color: #ffd9d9;
+  transform: rotate(-12deg);
+}
+
+.crew-card {
+  position: relative;
+  padding: 56px 26px 24px;
+  border: 3px solid var(--wood);
+  border-radius: var(--radius);
+}
+.crew-card__title {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 24px;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  background: var(--red);
+  box-shadow: 0 4px 0 var(--ink);
+  font-family: var(--font-pirate);
+  font-size: 1.6rem;
+  color: var(--gold);
+  white-space: nowrap;
+}
+.crew-card__list { display: grid; gap: 12px; margin: 0; }
+.crew-card__list div {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(58, 38, 20, 0.3);
+}
+.crew-card__list div:last-child { border-bottom: 0; padding-bottom: 0; }
+.crew-card__list dt { font-weight: 800; color: var(--red-deep); }
+.crew-card__list dd { margin: 0; font-weight: 600; }
+
+/* =========================================================
+   CHAPTER 2: DEVIL FRUITS, HAKI, CHEST
+   ========================================================= */
+.fruits {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin: 0 0 clamp(28px, 5vw, 48px);
+  padding: 0;
+  list-style: none;
+}
+.fruit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 22px 12px 18px;
+  border: 3px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--cream);
+  box-shadow: 0 6px 0 var(--ink);
+  color: var(--ink);
+  text-align: center;
+  transition: transform 0.25s var(--ease);
+}
+.fruit:hover { transform: translateY(-6px); }
+.fruit:hover .fruit__art { animation: wobble 0.7s ease; }
+.fruit__art { width: 68px; height: 68px; margin-bottom: 8px; }
+.fruit strong { font-size: 1.1rem; }
+.fruit span { font-size: 0.85rem; font-style: italic; color: #6b4a2b; }
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-12deg) scale(1.08); }
+  50% { transform: rotate(9deg); }
+  75% { transform: rotate(-5deg); }
+}
+
+.powers {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(20px, 4vw, 36px);
+  align-items: stretch;
+}
+
+.haki {
+  padding: clamp(22px, 3vw, 30px);
+  border: 2px solid rgba(242, 193, 78, 0.45);
+  border-radius: var(--radius);
+  background: rgba(6, 26, 48, 0.55);
+  color: var(--foam);
+}
+.haki .sub-title { color: var(--gold); }
+.haki__list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.haki__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+}
+.haki__item svg {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 9px;
+  border-radius: 50%;
+}
+.haki__item div { display: flex; flex-direction: column; }
+.haki__item strong { font-size: 1.05rem; }
+.haki__item span { color: var(--foam-2); font-size: 0.97rem; }
+.haki__item--obs svg { color: #9be7ff; background: rgba(78, 196, 255, 0.18); box-shadow: 0 0 18px rgba(78, 196, 255, 0.45); }
+.haki__item--arm svg { color: var(--gold); background: #111; box-shadow: 0 0 18px rgba(242, 193, 78, 0.35); }
+.haki__item--con svg { color: #ffb3b3; background: rgba(214, 40, 40, 0.3); box-shadow: 0 0 18px rgba(214, 40, 40, 0.55); }
+
+.chest {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(22px, 3vw, 30px);
+  border-radius: var(--radius);
+}
+.chest__art { width: 150px; height: auto; margin: 0 auto 18px; }
+.coins { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.coins li {
+  padding: 6px 16px;
+  border: 2px solid #c48a12;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #ffe08a, var(--gold) 60%, var(--gold-deep));
+  box-shadow: 0 3px 0 #a87508;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+/* =========================================================
+   CHAPTER 3: TREASURE MAP
+   ========================================================= */
+.map {
+  position: relative;
+  padding: clamp(28px, 4vw, 48px);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.map::before {
+  /* faint latitude/longitude lines */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgba(90, 55, 20, 0.07) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(90deg, rgba(90, 55, 20, 0.07) 0 1px, transparent 1px 64px);
+}
+
+.map__compass {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: clamp(54px, 7vw, 76px);
+  height: auto;
+  opacity: 0.85;
+}
+.map__needle { transform-box: view-box; transform-origin: 40px 40px; }
+
+.map__route {
+  position: absolute;
+  top: calc(clamp(28px, 4vw, 48px) + 4px);
+  left: clamp(28px, 4vw, 48px);
+  right: clamp(28px, 4vw, 48px);
+  width: auto;
+  height: 90px;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.8s ease-in-out;
+}
+.map.is-drawn .map__route,
+html:not(.js) .map__route { clip-path: inset(0 0 0 0); }
+
+.islands {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 3vw, 32px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.island {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0 4px;
+}
+.island__art { width: 120px; height: 80px; margin: 0 auto 14px; }
+.xmark {
+  position: absolute;
+  top: 40px;
+  left: calc(50% + 6px);
+  width: 30px;
+  height: 30px;
+}
+.island__meta { margin: 0 0 4px; font-weight: 800; font-size: 0.85rem; color: #6b4a2b; }
+.tag-sail  { color: var(--red-deep); }
+.tag-proto { color: #1c5d99; }
+.tag-ok    { color: #2b7a3a; }
+.island h3 { font-family: var(--font-pirate); font-size: 1.8rem; line-height: 1.1; margin-bottom: 8px; }
+.island > p:not(.island__meta) { margin: 0 0 14px; flex: 1; }
+.island__tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; padding: 0; list-style: none; }
+.island__tags li {
+  padding: 2px 10px;
+  border: 1.5px solid var(--wood);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--wood-dark);
+}
+.island__link {
+  align-self: flex-start;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 800;
+  color: var(--red-deep);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+.island__link:hover { color: var(--red); }
+
+/* =========================================================
+   CHAPTER 4: JOIN THE CREW
+   ========================================================= */
+.crew {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: clamp(24px, 5vw, 56px);
+  align-items: center;
+}
+
+.ddm-wrap { position: relative; max-width: 320px; margin-inline: auto; }
+.ddm { width: 100%; height: auto; overflow: visible; transform-origin: 50% 90%; }
+.ddm__eyes { transform-box: fill-box; transform-origin: center; }
+.ddm-bubble {
+  position: absolute;
+  top: -18px;
+  right: -6px;
+  z-index: 1;
+  margin: 0;
+  padding: 6px 14px;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  background: var(--cream);
+  font-family: var(--font-pirate);
+  font-size: 1.2rem;
+  color: var(--ink);
+  transform: rotate(6deg);
+}
+
+.crew__lead {
+  margin: 0 0 24px;
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  font-weight: 700;
+  line-height: 1.45;
+}
+.crew__lead span { color: var(--gold); font-family: var(--font-pirate); font-size: 1.2em; font-weight: 400; }
+
+.signs { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.signs li:nth-child(odd) .sign { transform: rotate(-1deg); }
+.signs li:nth-child(even) .sign { transform: rotate(1deg); }
+
+.sign {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 64px;
+  padding: 12px 26px;
+  border: 3px solid var(--wood-dark);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.07) 0 2px, transparent 2px 11px),
+    linear-gradient(180deg, var(--wood-light), var(--wood));
+  box-shadow: 0 5px 0 var(--wood-dark), 0 12px 20px -10px rgba(0, 0, 0, 0.6);
+  color: var(--cream);
+  text-decoration: none;
+  transition: transform 0.25s var(--ease), filter 0.2s ease;
+}
+/* nails */
+.sign::before,
+.sign::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e9e9e9, #7a7a7a);
+}
+.sign::before { left: 9px; }
+.sign::after { right: 9px; }
+.signs li .sign:hover { transform: rotate(0) translateX(6px); filter: brightness(1.1); }
+.sign svg { flex: none; width: 26px; height: 26px; color: var(--gold); }
+.sign span { display: flex; flex-direction: column; min-width: 0; font-weight: 800; overflow-wrap: anywhere; }
+.sign small { font-size: 0.78rem; color: #f3dcb4; font-weight: 700; }
+
+/* =========================================================
+   FOOTER: deep sea
+   ========================================================= */
+.deep {
+  position: relative;
+  overflow: hidden;
+  padding-block: 56px 40px;
+  background: linear-gradient(180deg, var(--abyss), #030d1a);
+  text-align: center;
+}
+.bubbles { position: absolute; inset: 0; pointer-events: none; }
+.bubble {
+  position: absolute;
+  bottom: -20px;
+  border: 1.5px solid rgba(173, 220, 255, 0.5);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 60%);
+}
+.deep__inner { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.flag { width: 120px; height: auto; margin-bottom: 8px; overflow: visible; }
+.flag__cloth { transform-box: fill-box; transform-origin: left center; }
+.deep__line { margin: 0; font-family: var(--font-pirate); font-size: 2rem; color: var(--gold); }
+.deep__copy, .deep__hint { margin: 0; font-size: 0.9rem; color: var(--foam-2); }
+.deep__hint { opacity: 0.75; }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 980px) {
+  .fruits { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .log, .powers, .crew { grid-template-columns: 1fr; }
+  .islands { grid-template-columns: 1fr; gap: 36px; }
+  .map__route { display: none; }
+  .island { padding-left: 0; }
+  .island__art { margin-left: 0; }
+  .xmark { left: 70px; }
+  .ddm-wrap { max-width: 240px; }
+}
+
+@media (max-width: 520px) {
+  .fruits { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .fruits li:last-child { grid-column: 1 / -1; }
+  .crew-card__list div { grid-template-columns: 1fr; gap: 0; }
+  .seal { width: 52px; height: 52px; font-size: 1.6rem; }
+}

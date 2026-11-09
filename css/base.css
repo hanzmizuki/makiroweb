@@ -1,0 +1,283 @@
+/* =========================================================
+   base.css: tokens, reset, typography, nav, buttons, utilities
+   ========================================================= */
+
+:root {
+  /* sky & sea */
+  --sky-top: #6fbdf0;
+  --sky-mid: #a8dcfa;
+  --sky-low: #d7f1ff;
+  --wave-back: #6cbcec;
+  --wave-mid: #3a8fd0;
+  --wave-front: #17639e;
+  --ocean-1: #17639e;
+  --ocean-2: #124f84;
+  --ocean-3: #0d3d6b;
+  --ocean-4: #0b2a4a;
+  --abyss: #061a30;
+
+  /* One Piece accents */
+  --gold: #f2c14e;
+  --gold-deep: #e0a92e;
+  --red: #d62828;
+  --red-deep: #a4161a;
+  --wood: #8b5a2b;
+  --wood-light: #a8743f;
+  --wood-dark: #5a3a1e;
+  --leaf: #2f9e44;
+
+  /* paper & ink */
+  --parchment: #f3e2b8;
+  --cream: #fff7e6;
+  --ink: #2a1a0e;         /* on parchment */
+  --ink-sky: #12304d;     /* on sky */
+  --foam: #f1f8ff;        /* on ocean */
+  --foam-2: #d3e6f7;
+
+  /* type */
+  --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-pirate: "Pirata One", Georgia, serif;
+
+  /* rhythm */
+  --radius: 16px;
+  --radius-sm: 10px;
+  --gutter: clamp(16px, 4vw, 32px);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --nav-h: 64px;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--foam);
+  background: var(--abyss);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+strong { font-weight: 800; }
+h1, h2, h3 { margin: 0; font-weight: 400; }
+
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+::selection { background: var(--gold); color: var(--ink); }
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 14px;
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 800;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+.skip-link:focus { top: 12px; }
+
+/* line icons */
+svg[viewBox="0 0 24 24"] {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.kicker {
+  margin: 0 0 6px;
+  font-family: var(--font-pirate);
+  font-size: 1.25rem;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+}
+
+kbd {
+  padding: 1px 7px;
+  border: 1px solid rgba(241, 248, 255, 0.35);
+  border-bottom-width: 3px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.9em;
+}
+
+/* =========================================================
+   NAV
+   ========================================================= */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  background: rgba(7, 31, 58, 0.45);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  transition: background 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.nav.is-scrolled {
+  background: rgba(7, 31, 58, 0.88);
+  box-shadow: 0 6px 20px -10px rgba(0, 0, 0, 0.6);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--nav-h);
+}
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-pirate);
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--gold);
+  text-decoration: none;
+}
+.strawhat { width: 34px; height: 21px; transition: transform 0.4s var(--ease); }
+.nav__brand:hover .strawhat { transform: rotate(-14deg) translateY(-2px); }
+
+.nav__links {
+  display: flex;
+  gap: clamp(12px, 3vw, 30px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nav__links a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 0;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--foam);
+  text-decoration: none;
+  transition: color 0.2s var(--ease);
+}
+.nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.3s var(--ease);
+}
+.nav__links a:hover,
+.nav__links a.is-active { color: var(--gold); }
+.nav__links a:hover::after,
+.nav__links a.is-active::after { transform: scaleX(1); }
+
+@media (max-width: 420px) {
+  .nav__brand span { display: none; }
+  .nav__links a { font-size: 0.88rem; }
+}
+
+/* =========================================================
+   BUTTONS (wooden signboards)
+   ========================================================= */
+.btn {
+  position: relative;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 24px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 5px 0 var(--ink);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: var(--cream);
+  text-decoration: none;
+  cursor: pointer;
+  transition: top 0.12s ease, box-shadow 0.12s ease, filter 0.2s ease;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { top: 4px; box-shadow: 0 1px 0 var(--ink); }
+
+.btn--red { background: var(--red); }
+.btn--wood {
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.06) 0 2px, transparent 2px 14px),
+    linear-gradient(180deg, var(--wood-light), var(--wood));
+}
+
+/* =========================================================
+   TOAST (easter eggs)
+   ========================================================= */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 80;
+  max-width: calc(100% - 32px);
+  padding: 10px 22px;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  background: var(--red);
+  box-shadow: 0 6px 0 var(--ink);
+  font-family: var(--font-pirate);
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  color: var(--gold);
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 20px);
+  transition: opacity 0.25s ease, transform 0.35s var(--ease);
+}
+.toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+
+/* =========================================================
+   ANIMATION STATES
+   .js hides things until anime.js plays them in;
+   it is removed if animations can't run.
+   ========================================================= */
+.js [data-intro],
+.js [data-reveal],
+.js [data-poster],
+.js .island,
+.js .xmark,
+.js .fruit { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

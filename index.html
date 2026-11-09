@@ -1,24 +1,642 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="js">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Kiro</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kiro — Future Pirate King of Code</title>
+  <meta name="description" content="Kiro: Computer Science student at UKM (Software Technology track) sailing the Grand Line of cybersecurity, AI and building cool stuff with code.">
+  <meta name="theme-color" content="#17639e">
+
+  <meta property="og:title" content="Kiro — Future Pirate King of Code">
+  <meta property="og:description" content="CS student @ UKM · Software Technology · Cybersecurity · AI">
+  <meta property="og:image" content="assets/luffy.jpg">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%2317639e'/%3E%3Cellipse cx='16' cy='20' rx='13' ry='3.6' fill='%23f2c14e'/%3E%3Cpath d='M8.5 20C8.5 10 23.5 10 23.5 20Z' fill='%23e0a92e'/%3E%3Cpath d='M8.8 16.6C11 15.4 21 15.4 23.2 16.6L23.4 18.6C21 17.5 11 17.5 8.6 18.6Z' fill='%23d62828'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Pirata+One&display=swap" rel="stylesheet">
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/animejs@4.0.2/+esm" crossorigin>
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/undersea.css">
+
+  <script>
+    // Show everything anyway if animations can't start (offline, CDN blocked...)
+    setTimeout(function () {
+      if (!document.documentElement.classList.contains('anim-ok')) {
+        document.documentElement.classList.remove('js');
+      }
+    }, 2500);
+  </script>
 </head>
 <body>
-    <div class="container">
-        <h1>Hello, I'm Kiro 👋</h1>
-        <img src="luffy.jpg" alt="Kiro" class="profile">
-        <p>I’m a Computer Science student at UKM. I’m passionate about cybersecurity 🔒, AI 🤖, and building cool stuff with code.</p>
-        <p>Languages I know: Java, Python, HTML, CSS, JavaScript</p>
-        <button onclick="showMore()">More About Me</button>
-        <div id="moreInfo" class="hidden">
-            <p>Former athlete, introvert, and always learning new things. 💡</p>
-            <p>I also enjoy designing smart systems like AR navigators and AI-powered tools.</p>
-        </div>
-    </div>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <script src="script.js"></script>
+  <!-- ===== Reusable drawings (all original SVG) ===== -->
+  <svg width="0" height="0" class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="cloud" viewBox="0 0 200 90">
+      <g fill="#fff">
+        <circle cx="60" cy="55" r="30"/><circle cx="96" cy="40" r="36"/>
+        <circle cx="136" cy="52" r="28"/><rect x="38" y="52" width="124" height="34" rx="17"/>
+      </g>
+    </symbol>
+
+    <symbol id="gull" viewBox="0 0 40 16">
+      <path d="M2 11Q10 2 20 10Q30 2 38 11" fill="none" stroke="#1d3557" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- skull in a straw hat with crossbones -->
+    <symbol id="roger" viewBox="0 0 64 64">
+      <g stroke="#f8f4e8" stroke-width="5" stroke-linecap="round"><path d="M13 47L51 21"/><path d="M13 21L51 47"/></g>
+      <g fill="#f8f4e8"><circle cx="11" cy="48" r="3.6"/><circle cx="53" cy="48" r="3.6"/><circle cx="11" cy="20" r="3.6"/><circle cx="53" cy="20" r="3.6"/></g>
+      <path d="M32 19c-9 0-15 6-15 14 0 5 2.5 8 6 10v6h18v-6c3.5-2 6-5 6-10 0-8-6-14-15-14z" fill="#f8f4e8"/>
+      <circle cx="26" cy="34" r="4.2" fill="#161616"/><circle cx="38" cy="34" r="4.2" fill="#161616"/>
+      <path d="M32 38l-2 4h4z" fill="#161616"/>
+      <path d="M27 45v4M32 45v4M37 45v4" stroke="#161616" stroke-width="1.6"/>
+      <ellipse cx="32" cy="20" rx="19" ry="4.2" fill="#f2c14e"/>
+      <path d="M21 20c0-10.5 22-10.5 22 0z" fill="#e0a92e"/>
+      <path d="M21.4 16.4c3-1.4 18.2-1.4 21.2 0l.3 2.2c-3.4-1.2-18.4-1.2-21.8 0z" fill="#d62828"/>
+    </symbol>
+
+    <!-- devil fruit: colours come from --fruit / --fruit-dark -->
+    <symbol id="fruit" viewBox="0 0 64 64">
+      <path d="M32 14c-13 0-22 9-22 22s9 22 22 22 22-9 22-22-9-22-22-22z" style="fill:var(--fruit)"/>
+      <g fill="none" stroke-width="2.6" stroke-linecap="round" style="stroke:var(--fruit-dark)">
+        <path d="M17 31c3-5 9-5 10 0s-5 6-6 2"/><path d="M34 23c4-4 10-2 9 3s-6 4-6 1"/>
+        <path d="M21 46c3-5 9-5 10 0s-5 6-6 2"/><path d="M40 39c4-4 10-2 9 3s-6 4-6 1"/>
+      </g>
+      <ellipse cx="23" cy="24" rx="5" ry="3" fill="#fff" opacity=".4" transform="rotate(-30 23 24)"/>
+      <path d="M32 15c0-4 1-7 4-9" stroke="#6b4426" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M35 9c5-4 12-3 14 1-5 3-10 3-14-1z" fill="#3fa34d"/>
+    </symbol>
+
+    <!-- fish: colour from --f, faces left -->
+    <symbol id="fish" viewBox="0 0 40 20">
+      <path d="M3 10Q14 0 28 10Q14 20 3 10Z" style="fill:var(--f)"/>
+      <path d="M27 10L38 3L35.5 10L38 17Z" style="fill:var(--f)"/>
+      <path d="M15 4.5Q18 10 15 15.5" stroke="#06223f" stroke-width="1.2" fill="none" opacity=".35"/>
+      <circle cx="9" cy="8.6" r="1.7" fill="#06223f"/>
+    </symbol>
+
+    <!-- jellyfish: colour from --j -->
+    <symbol id="jelly" viewBox="0 0 40 64">
+      <path d="M3 24Q20-6 37 24Q29 28 20 24Q11 28 3 24Z" style="fill:var(--j)"/>
+      <path d="M10 25q-3 10 0 18t0 16M17 25q3 10 0 18t0 14M24 25q-3 10 0 18t0 16M31 25q3 10 0 18t0 12" fill="none" stroke-width="1.8" stroke-linecap="round" style="stroke:var(--j)" opacity=".75"/>
+      <ellipse cx="14" cy="14" rx="4" ry="2.4" fill="#fff" opacity=".45" transform="rotate(-25 14 14)"/>
+    </symbol>
+
+    <symbol id="island" viewBox="0 0 120 80">
+      <ellipse cx="60" cy="68" rx="54" ry="9" fill="#7cc6f2" opacity=".55"/>
+      <path d="M18 68Q60 38 102 68Z" fill="#f2d48f"/>
+      <path d="M30 68Q60 50 90 68Z" fill="#e8c77d"/>
+      <path d="M62 62Q59 42 68 25" stroke="#8b5a2b" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M68 25Q52 14 38 22Q54 18 68 25Z" fill="#2f9e44"/>
+      <path d="M68 25Q80 10 97 16Q82 16 68 25Z" fill="#37b24d"/>
+      <path d="M68 25Q62 8 49 6Q64 12 68 25Z" fill="#2b8a3e"/>
+      <path d="M68 25Q88 22 95 35Q82 27 68 25Z" fill="#2f9e44"/>
+      <path d="M68 25Q50 26 44 38Q56 28 68 25Z" fill="#37b24d"/>
+      <circle cx="66" cy="28" r="2.6" fill="#6b4426"/><circle cx="70.5" cy="28.5" r="2.6" fill="#5a3a1e"/>
+      <path d="M10 76q6-4 12 0t12 0M86 76q6-4 12 0t12 0" stroke="#fff" stroke-width="1.8" fill="none" opacity=".8"/>
+    </symbol>
+  </svg>
+
+  <!-- ===== NAV ===== -->
+  <header class="nav">
+    <div class="nav__inner container">
+      <a class="nav__brand" href="#main" aria-label="Kiro, back to top">
+        <svg class="strawhat" viewBox="0 0 32 20" aria-hidden="true">
+          <ellipse cx="16" cy="15.5" rx="15" ry="3.8" fill="#f2c14e"/>
+          <path d="M8 15.5C8 5.5 24 5.5 24 15.5Z" fill="#e0a92e"/>
+          <path d="M8.3 12C10.5 10.8 21.5 10.8 23.7 12L23.9 14C21.5 12.9 10.5 12.9 8.1 14Z" fill="#d62828"/>
+        </svg>
+        <span>Kiro</span>
+      </a>
+      <nav aria-label="Sections">
+        <ul class="nav__links">
+          <li><a href="#log">Log</a></li>
+          <li><a href="#powers">Powers</a></li>
+          <li><a href="#adventures">Adventures</a></li>
+          <li><a href="#crew">Crew</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===== HERO: sky + sea + ship ===== -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="sky" aria-hidden="true">
+        <div class="sun"></div>
+        <svg class="cloud cloud--1"><use href="#cloud"/></svg>
+        <svg class="cloud cloud--2"><use href="#cloud"/></svg>
+        <svg class="cloud cloud--3"><use href="#cloud"/></svg>
+        <svg class="cloud cloud--4"><use href="#cloud"/></svg>
+        <div class="gulls">
+          <svg class="gull"><use href="#gull"/></svg>
+          <svg class="gull gull--b"><use href="#gull"/></svg>
+          <svg class="gull gull--c"><use href="#gull"/></svg>
+        </div>
+      </div>
+
+      <div class="hero__inner container">
+        <div class="hero__text">
+          <p class="kicker" data-intro>Chapter 0 · A new voyage begins</p>
+          <h1 id="hero-title" class="hero__title" data-intro>
+            <span class="hero__hi">Hi, I'm</span>
+            <span class="hero__name">Kiro</span>
+          </h1>
+          <p class="hero__tag" data-intro>Future Pirate King of Code</p>
+          <p class="hero__lead" data-intro>
+            Computer Science student at <strong>UKM</strong> on the
+            <strong>Software Technology</strong> track, sailing the Grand Line of
+            cybersecurity, AI and building cool stuff with code.
+          </p>
+          <div class="hero__actions" data-intro>
+            <a class="btn btn--red" href="#adventures" data-gomu>See my adventures</a>
+            <a class="btn btn--wood" href="#crew" data-gomu>Join my crew</a>
+          </div>
+        </div>
+
+        <div class="hero__poster">
+          <div class="poster" data-poster role="group" aria-label="Wanted poster: Kiro, wanted for hire, bounty 1,500,000,000 berries">
+            <span class="poster__pin" aria-hidden="true"></span>
+            <p class="poster__wanted">WANTED</p>
+            <div class="poster__photo">
+              <img src="assets/luffy.jpg" alt="Kiro's avatar" width="736" height="736" decoding="async" fetchpriority="high">
+            </div>
+            <p class="poster__status"><span>FOR HIRE</span></p>
+            <p class="poster__name">KIRO</p>
+            <p class="poster__bounty">
+              <span class="berry" aria-hidden="true">฿</span><span id="bounty" data-value="1500000000">1,500,000,000</span><span aria-hidden="true">-</span>
+            </p>
+            <p class="poster__note">for crimes against bad code</p>
+            <p class="poster__foot">UKM · SOFTWARE TECHNOLOGY</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sea">
+        <svg class="wave wave--back" viewBox="0 0 2880 120" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 60Q180 30 360 60T720 60T1080 60T1440 60T1800 60T2160 60T2520 60T2880 60V120H0Z"/>
+        </svg>
+
+        <div class="ship-wrap">
+          <button class="ship-btn" type="button" aria-label="Kiro's ship. Click to set sail!">
+            <svg class="ship" viewBox="0 0 320 260" aria-hidden="true">
+              <!-- flag -->
+              <g class="ship__flag">
+                <path d="M162 12L204 16L198 28L204 40L162 38Z" fill="#161616"/>
+                <circle cx="180" cy="25" r="5" fill="#f8f4e8"/>
+                <path d="M174 22h12" stroke="#f2c14e" stroke-width="2.4"/>
+              </g>
+              <!-- rigging -->
+              <g stroke="#5a3a1e" stroke-width="1.4" opacity=".7">
+                <path d="M160 22L34 168"/><path d="M160 22L296 166"/>
+              </g>
+              <!-- mast + crow's nest -->
+              <rect x="156" y="10" width="7" height="192" rx="2" fill="#6b4426"/>
+              <path d="M145 44h29l-3 11h-23z" fill="#8b5a2b"/>
+              <!-- main sail with emblem -->
+              <rect x="104" y="58" width="112" height="6" rx="3" fill="#6b4426"/>
+              <path d="M112 64Q160 56 208 64Q217 110 208 156Q160 148 112 156Q103 110 112 64Z" fill="#fbf3dc" stroke="#d8c39a" stroke-width="2"/>
+              <circle cx="160" cy="108" r="30" fill="#1b1b1b"/>
+              <use href="#roger" x="134" y="82" width="52" height="52"/>
+              <rect x="104" y="154" width="112" height="6" rx="3" fill="#6b4426"/>
+              <!-- jib -->
+              <path d="M214 66L286 168H216Z" fill="#f4e7c6" stroke="#d8c39a" stroke-width="2"/>
+              <!-- cabin -->
+              <rect x="26" y="122" width="62" height="9" rx="3" fill="#6b4426"/>
+              <rect x="31" y="130" width="52" height="34" rx="4" fill="#a8743f"/>
+              <rect x="44" y="137" width="26" height="15" rx="3" fill="#9fd8f8" stroke="#6b4426" stroke-width="2"/>
+              <!-- hull -->
+              <rect x="20" y="160" width="280" height="11" rx="4" fill="#a8743f"/>
+              <path d="M24 170H296Q290 202 262 222Q240 238 200 240H110Q60 238 40 216Q28 200 24 170Z" fill="#8b5a2b"/>
+              <path d="M34 204Q160 218 290 198Q282 214 262 226Q240 240 200 242H110Q62 240 44 222Q37 213 34 204Z" fill="#6b4426"/>
+              <path d="M27 182Q160 194 293 180" stroke="#f2c14e" stroke-width="4" fill="none"/>
+              <g fill="#3a2614" stroke="#f2c14e" stroke-width="2">
+                <circle cx="96" cy="198" r="6"/><circle cx="136" cy="200" r="6"/><circle cx="176" cy="200" r="6"/><circle cx="216" cy="198" r="6"/>
+              </g>
+              <!-- sunny lion figurehead -->
+              <g transform="translate(292 150)">
+                <g fill="#f59f00">
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(30)"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(60)"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(90)"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(120)"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(150)"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(180)"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(210)"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(240)"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(270)"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(300)"/>
+                  <path d="M0-25Q8-15 0-9Q-8-15 0-25Z" transform="rotate(330)"/>
+                </g>
+                <circle r="13" fill="#ffd43b"/>
+                <circle cx="-4.5" cy="-3" r="1.9" fill="#3a2614"/><circle cx="4.5" cy="-3" r="1.9" fill="#3a2614"/>
+                <path d="M-5 3Q0 8 5 3" stroke="#3a2614" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              </g>
+            </svg>
+          </button>
+        </div>
+
+        <svg class="wave wave--mid" viewBox="0 0 2880 120" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 50Q120 20 240 50T480 50T720 50T960 50T1200 50T1440 50T1680 50T1920 50T2160 50T2400 50T2640 50T2880 50V120H0Z"/>
+        </svg>
+        <svg class="wave wave--front" viewBox="0 0 2880 120" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 44Q90 20 180 44T360 44T540 44T720 44T900 44T1080 44T1260 44T1440 44T1620 44T1800 44T1980 44T2160 44T2340 44T2520 44T2700 44T2880 44V120H0Z"/>
+        </svg>
+      </div>
+    </section>
+
+    <div class="ocean">
+
+      <!-- ===== Undersea life (decorative, behind the content) ===== -->
+      <div class="undersea" aria-hidden="true">
+
+        <!-- giant friendly whale (a Laboon nod, with his X scar) -->
+        <svg class="swimmer whale" viewBox="0 0 400 180" data-swim="left" data-speed="75000">
+          <path d="M20 100C20 40 120 20 220 30C300 38 340 70 350 95L395 58L384 104L395 152L344 120C318 150 240 170 160 165C80 160 20 150 20 100Z" fill="#0a3561"/>
+          <path d="M42 126C92 152 200 160 300 136C250 162 120 170 62 152Z" fill="#2a6aa3"/>
+          <path d="M150 150q20 18 44 14" stroke="#0a3561" stroke-width="10" stroke-linecap="round" fill="none"/>
+          <circle cx="72" cy="94" r="6" fill="#d6ecff"/><circle cx="73" cy="95" r="3" fill="#06223f"/>
+          <path d="M28 118Q60 132 98 120" stroke="#06223f" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M108 52l16 16M124 52l-16 16" stroke="#d6ecff" stroke-width="4" stroke-linecap="round" opacity=".65"/>
+          <g fill="none" stroke="#bfe3ff" stroke-width="2" opacity=".6"><circle cx="96" cy="22" r="5"/><circle cx="106" cy="8" r="3.5"/><circle cx="88" cy="6" r="2.5"/></g>
+        </svg>
+
+        <!-- Sea King gliding through the deep -->
+        <svg class="swimmer seaking" viewBox="0 0 720 170" data-swim="left" data-speed="95000">
+          <path d="M70 85C150 25 230 145 310 85S470 25 550 85S670 145 712 105" stroke="#072746" stroke-width="36" fill="none" stroke-linecap="round"/>
+          <path d="M70 85C150 25 230 145 310 85S470 25 550 85S670 145 712 105" stroke="#164b78" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="2 26" transform="translate(0 9)"/>
+          <path d="M140 46l8-26 10 22M300 64l8-28 10 24M460 46l8-26 10 22" fill="#072746"/>
+          <path d="M8 74Q28 40 86 56L104 84L86 112Q28 124 8 94Z" fill="#072746"/>
+          <path d="M12 92Q40 100 74 96" stroke="#164b78" stroke-width="3" fill="none"/>
+          <path d="M60 58L78 26L76 62Z" fill="#072746"/>
+          <circle class="seaking__eye" cx="54" cy="70" r="6" fill="#ffd43b"/>
+        </svg>
+
+        <!-- fish schools -->
+        <div class="school school--a" data-swim="right" data-speed="32000">
+          <svg class="fish" style="--f:#ff922b;left:0;top:10px"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#ffa94d;left:36px;top:0"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#ff922b;left:46px;top:30px"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#ffc078;left:82px;top:14px"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#ff922b;left:20px;top:44px"><use href="#fish"/></svg>
+        </div>
+        <div class="school school--b" data-swim="left" data-speed="26000">
+          <svg class="fish" style="--f:#ffe066;left:0;top:12px"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#ffd43b;left:34px;top:0"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#ffe066;left:40px;top:28px"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#fcc419;left:74px;top:12px"><use href="#fish"/></svg>
+        </div>
+        <div class="school school--c" data-swim="right" data-speed="38000">
+          <svg class="fish" style="--f:#63e6be;left:0;top:8px"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#38d9a9;left:30px;top:26px"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#96f2d7;left:44px;top:0"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#38d9a9;left:76px;top:18px"><use href="#fish"/></svg>
+          <svg class="fish" style="--f:#63e6be;left:104px;top:4px"><use href="#fish"/></svg>
+        </div>
+
+        <!-- jellyfish -->
+        <svg class="jelly jelly--1" style="--j:#f783ac"><use href="#jelly"/></svg>
+        <svg class="jelly jelly--2" style="--j:#da77f2"><use href="#jelly"/></svg>
+        <svg class="jelly jelly--3" style="--j:#74c0fc"><use href="#jelly"/></svg>
+        <svg class="jelly jelly--4" style="--j:#f783ac"><use href="#jelly"/></svg>
+        <svg class="jelly jelly--5" style="--j:#b197fc"><use href="#jelly"/></svg>
+
+        <!-- bubble-coated ship diving down as you scroll -->
+        <div class="dive-track">
+          <svg class="dive" viewBox="0 0 120 150">
+            <g class="dive__trail" fill="none" stroke="#cfeaff" stroke-width="1.6" opacity=".7">
+              <circle cx="58" cy="10" r="4"/><circle cx="68" cy="22" r="3"/><circle cx="54" cy="30" r="2.4"/>
+            </g>
+            <g class="dive__ship">
+              <circle cx="60" cy="90" r="56" fill="rgba(170,225,255,.14)" stroke="rgba(210,240,255,.6)" stroke-width="2.5"/>
+              <path d="M28 70A38 38 0 0 1 52 48" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity=".5"/>
+              <path d="M62 58L76 61L62 65Z" fill="#161616"/>
+              <rect x="58" y="58" width="4" height="48" rx="1" fill="#6b4426"/>
+              <path d="M42 68Q60 64 78 68Q81 82 78 96Q60 92 42 96Q39 82 42 68Z" fill="#fbf3dc"/>
+              <circle cx="60" cy="82" r="8" fill="#1b1b1b"/><circle cx="60" cy="81" r="3.2" fill="#f8f4e8"/>
+              <path d="M56 78.5h8" stroke="#f2c14e" stroke-width="2"/>
+              <rect x="24" y="102" width="72" height="5" rx="2" fill="#a8743f"/>
+              <path d="M26 106H94Q90 120 76 126H44Q30 120 26 106Z" fill="#8b5a2b"/>
+              <circle cx="96" cy="100" r="6" fill="#f59f00"/><circle cx="96" cy="100" r="3.6" fill="#ffd43b"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Fish-Man Island glowing in the distance -->
+        <svg class="fmi" viewBox="0 0 600 260">
+          <defs>
+            <radialGradient id="fmiDome" cx="50%" cy="30%" r="70%">
+              <stop offset="0" stop-color="#9fe7ff" stop-opacity=".32"/>
+              <stop offset="1" stop-color="#9fe7ff" stop-opacity=".06"/>
+            </radialGradient>
+          </defs>
+          <ellipse class="fmi__glow" cx="300" cy="230" rx="300" ry="140" fill="#4fd1ff" opacity=".12"/>
+          <g fill="#2fb3a8">
+            <rect x="168" y="168" width="22" height="92" rx="11"/>
+            <rect x="200" y="118" width="30" height="142" rx="15"/>
+            <rect x="250" y="76" width="42" height="184" rx="21"/>
+            <rect x="350" y="150" width="24" height="110" rx="12"/>
+            <rect x="400" y="186" width="20" height="74" rx="10"/>
+          </g>
+          <g fill="#f783ac">
+            <rect x="306" y="106" width="30" height="154" rx="15"/>
+            <rect x="142" y="200" width="18" height="60" rx="9"/>
+            <rect x="430" y="210" width="18" height="50" rx="9"/>
+          </g>
+          <g fill="#ffe066" opacity=".85">
+            <circle cx="271" cy="110" r="4"/><circle cx="271" cy="140" r="4"/><circle cx="215" cy="150" r="3.4"/>
+            <circle cx="321" cy="140" r="3.4"/><circle cx="321" cy="170" r="3.4"/><circle cx="362" cy="180" r="3"/>
+          </g>
+          <path d="M60 260Q110 226 160 246T260 240T360 244T460 236T560 260Z" fill="#e8590c" opacity=".55"/>
+          <path d="M40 260A260 232 0 0 1 560 260Z" fill="url(#fmiDome)" stroke="#d2f0ff" stroke-opacity=".5" stroke-width="3"/>
+          <path d="M110 160A220 200 0 0 1 250 62" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".3"/>
+        </svg>
+      </div>
+
+      <!-- ===== CHAPTER 1: CAPTAIN'S LOG ===== -->
+      <section class="section container" id="log" aria-labelledby="log-title">
+        <header class="section__head" data-reveal>
+          <p class="kicker">Chapter 1</p>
+          <h2 id="log-title">Captain's Log</h2>
+          <p class="section__sub">Who's steering this ship</p>
+        </header>
+
+        <div class="log">
+          <article class="scroll" data-reveal>
+            <p class="scroll__entry">Entry #001 · Day 1 on the Grand Line</p>
+            <p>
+              I'm Kiro, a Computer Science student at Universiti Kebangsaan Malaysia (UKM),
+              specialising in <strong>Software Technology</strong>. Most of my curiosity goes into
+              <strong>cybersecurity</strong>: how systems get attacked, and how to defend them.
+            </p>
+            <p>
+              I also enjoy designing smart systems like <strong>AR navigators</strong> and
+              <strong>AI-powered tools</strong>, things that take a real problem and make it a bit less painful.
+            </p>
+            <p>
+              Off the keyboard: former athlete, introvert, and always learning something new.
+              Sport taught me how to learn: show up, practise, repeat.
+            </p>
+            <p class="scroll__sign">Captain Kiro</p>
+            <span class="seal" aria-hidden="true">K</span>
+          </article>
+
+          <aside class="crew-card" data-reveal aria-label="Crew profile">
+            <h3 class="crew-card__title">Crew Profile</h3>
+            <dl class="crew-card__list">
+              <div><dt>Name</dt><dd>Kiro</dd></div>
+              <div><dt>Position</dt><dd>Captain · CS student</dd></div>
+              <div><dt>Home port</dt><dd>UKM, Bangi</dd></div>
+              <div><dt>Route</dt><dd>Software Technology</dd></div>
+              <div><dt>Dream</dt><dd>Build systems that matter, and keep them safe</dd></div>
+              <div><dt>Traits</dt><dd>Former athlete · introvert · always learning</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ===== CHAPTER 2: POWERS ===== -->
+      <section class="section container" id="powers" aria-labelledby="powers-title">
+        <header class="section__head" data-reveal>
+          <p class="kicker">Chapter 2</p>
+          <h2 id="powers-title">Devil Fruits &amp; Haki</h2>
+          <p class="section__sub">Languages I've eaten (can't swim anymore), plus the powers I train</p>
+        </header>
+
+        <ul class="fruits" data-reveal>
+          <li class="fruit" style="--fruit:#e8590c;--fruit-dark:#a33a05">
+            <svg class="fruit__art" aria-hidden="true"><use href="#fruit"/></svg>
+            <strong>Java</strong><span>Kohi Kohi no Mi</span>
+          </li>
+          <li class="fruit" style="--fruit:#3b82c4;--fruit-dark:#f2c14e">
+            <svg class="fruit__art" aria-hidden="true"><use href="#fruit"/></svg>
+            <strong>Python</strong><span>Hebi Hebi no Mi</span>
+          </li>
+          <li class="fruit" style="--fruit:#f7d23e;--fruit-dark:#8a6d00">
+            <svg class="fruit__art" aria-hidden="true"><use href="#fruit"/></svg>
+            <strong>JavaScript</strong><span>Ugoki Ugoki no Mi</span>
+          </li>
+          <li class="fruit" style="--fruit:#e34c26;--fruit-dark:#fff1d6">
+            <svg class="fruit__art" aria-hidden="true"><use href="#fruit"/></svg>
+            <strong>HTML</strong><span>Kata Kata no Mi</span>
+          </li>
+          <li class="fruit" style="--fruit:#7048e8;--fruit-dark:#d0bfff">
+            <svg class="fruit__art" aria-hidden="true"><use href="#fruit"/></svg>
+            <strong>CSS</strong><span>Iro Iro no Mi</span>
+          </li>
+        </ul>
+
+        <div class="powers">
+          <div class="haki" data-reveal>
+            <h3 class="sub-title">Haki <small>what I focus on</small></h3>
+            <ul class="haki__list">
+              <li class="haki__item haki__item--obs">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                <div><strong>Observation Haki</strong><span>Cybersecurity: sense the attack before it lands.</span></div>
+              </li>
+              <li class="haki__item haki__item--arm">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4v5c0 4.6-3.4 8.4-8 9-4.6-.6-8-4.4-8-9V7l8-4z"/></svg>
+                <div><strong>Armament Haki</strong><span>Software engineering: solid, hardened code.</span></div>
+              </li>
+              <li class="haki__item haki__item--con">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18l2-10 5 5 2-8 2 8 5-5 2 10z"/><path d="M3 21h18"/></svg>
+                <div><strong>Conqueror's Haki</strong><span>AI &amp; AR: smart systems that take charge.</span></div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- EDIT: adjust the tools to the ones you actually use -->
+          <div class="chest" data-reveal>
+            <h3 class="sub-title">Treasure Chest <small>my tools</small></h3>
+            <svg class="chest__art" viewBox="0 0 120 90" aria-hidden="true">
+              <path d="M14 42Q60 4 106 42Z" fill="#8b5a2b"/>
+              <path d="M24 38Q60 12 96 38" stroke="#6b4426" stroke-width="3" fill="none"/>
+              <rect x="14" y="42" width="92" height="42" rx="4" fill="#a8743f"/>
+              <rect x="14" y="42" width="92" height="8" fill="#6b4426"/>
+              <rect x="30" y="42" width="8" height="42" fill="#f2c14e"/>
+              <rect x="82" y="42" width="8" height="42" fill="#f2c14e"/>
+              <rect x="53" y="46" width="14" height="17" rx="2" fill="#f2c14e"/>
+              <circle cx="60" cy="53" r="2.4" fill="#3a2614"/>
+              <g fill="#f2c14e" stroke="#c48a12" stroke-width="1.2">
+                <circle cx="8" cy="83" r="6"/><circle cx="112" cy="82" r="6"/><circle cx="102" cy="86" r="5"/><circle cx="18" cy="87" r="4"/>
+              </g>
+            </svg>
+            <ul class="coins">
+              <li>Git &amp; GitHub</li>
+              <li>VS Code</li>
+              <li>Linux</li>
+              <li>Android Studio</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CHAPTER 3: ADVENTURES (treasure map) ===== -->
+      <!-- EDIT: replace titles, descriptions, tags and links with your real projects -->
+      <section class="section container" id="adventures" aria-labelledby="adventures-title">
+        <header class="section__head" data-reveal>
+          <p class="kicker">Chapter 3</p>
+          <h2 id="adventures-title">Adventures</h2>
+          <p class="section__sub">Islands I've sailed to, or am sailing to</p>
+        </header>
+
+        <div class="map" data-reveal>
+          <svg class="map__compass" viewBox="0 0 80 80" aria-hidden="true">
+            <circle cx="40" cy="40" r="34" fill="none" stroke="#6b4426" stroke-width="2"/>
+            <circle cx="40" cy="40" r="27" fill="none" stroke="#6b4426" stroke-width="1" stroke-dasharray="2 3"/>
+            <g class="map__needle">
+              <path d="M40 8L46 40H34Z" fill="#d62828"/>
+              <path d="M40 72L46 40H34Z" fill="#3a2614"/>
+            </g>
+            <path d="M8 40L40 35V45ZM72 40L40 35V45Z" fill="#6b4426" opacity=".6"/>
+            <circle cx="40" cy="40" r="3" fill="#f2c14e"/>
+            <text x="40" y="6" text-anchor="middle" font-family="Pirata One, serif" font-size="9" fill="#3a2614">N</text>
+          </svg>
+
+          <svg class="map__route" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M167 62C280 -6 390 -6 500 56S720 128 833 56" fill="none" stroke="#d62828" stroke-width="3" stroke-dasharray="10 9" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </svg>
+
+          <ol class="islands">
+            <li class="island">
+              <svg class="island__art" aria-hidden="true"><use href="#island"/></svg>
+              <p class="island__meta">Island 1 · <span class="tag-sail">Sailing</span></p>
+              <h3>AR Campus Navigator</h3>
+              <p>Augmented-reality wayfinding that puts directions on the camera view, so new students find lecture halls without a paper map.</p>
+              <ul class="island__tags"><li>AR</li><li>Mobile</li><li>Java</li></ul>
+              <a class="island__link" href="#" aria-label="AR Campus Navigator source code">View the log →</a>
+            </li>
+            <li class="island">
+              <svg class="island__art" aria-hidden="true"><use href="#island"/></svg>
+              <p class="island__meta">Island 2 · <span class="tag-proto">Prototype</span></p>
+              <h3>AI-Powered Study Tool</h3>
+              <p>A small assistant that summarises lecture notes and makes practice questions, built to explore how language models fit into everyday tools.</p>
+              <ul class="island__tags"><li>Python</li><li>AI</li><li>NLP</li></ul>
+              <a class="island__link" href="#" aria-label="AI-Powered Study Tool source code">View the log →</a>
+            </li>
+            <li class="island island--x">
+              <svg class="island__art" aria-hidden="true"><use href="#island"/></svg>
+              <svg class="xmark" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 8L32 32M32 8L8 32" stroke="#d62828" stroke-width="6" stroke-linecap="round"/></svg>
+              <p class="island__meta">Island 3 · <span class="tag-ok">Ongoing</span></p>
+              <h3>Security Lab &amp; CTF Notes</h3>
+              <p>Write-ups from capture-the-flag challenges and home-lab experiments: web exploitation, crypto and network forensics.</p>
+              <ul class="island__tags"><li>Cybersecurity</li><li>CTF</li><li>Linux</li></ul>
+              <a class="island__link" href="#" aria-label="Security Lab write-ups">Read write-ups →</a>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ===== CHAPTER 4: JOIN THE CREW ===== -->
+      <section class="section container" id="crew" aria-labelledby="crew-title">
+        <header class="section__head" data-reveal>
+          <p class="kicker">Chapter 4</p>
+          <h2 id="crew-title">Join the Crew</h2>
+          <p class="section__sub">Looking for nakama</p>
+        </header>
+
+        <div class="crew" data-reveal>
+          <div class="ddm-wrap">
+            <p class="ddm-bubble" aria-hidden="true">Bururu... bururu...</p>
+            <svg class="ddm" viewBox="0 0 220 180" aria-hidden="true">
+              <path d="M20 150Q20 128 50 124H170Q200 124 204 150Q204 164 190 164H34Q20 164 20 150Z" fill="#f7c59f"/>
+              <path d="M150 130Q150 70 178 66Q206 64 206 102V152H150Z" fill="#f7c59f"/>
+              <path d="M172 72L164 40M190 72L198 42" stroke="#f7c59f" stroke-width="8" stroke-linecap="round"/>
+              <g class="ddm__eyes">
+                <circle cx="164" cy="36" r="9" fill="#fff" stroke="#3a2614" stroke-width="2"/>
+                <circle cx="198" cy="38" r="9" fill="#fff" stroke="#3a2614" stroke-width="2"/>
+                <circle cx="165" cy="37" r="4" fill="#3a2614"/><circle cx="197" cy="39" r="4" fill="#3a2614"/>
+              </g>
+              <path d="M168 104Q181 113 195 104" stroke="#3a2614" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <circle cx="92" cy="98" r="52" fill="#e8913a"/>
+              <circle cx="92" cy="98" r="40" fill="#f2a94e"/>
+              <path d="M92 98m-6 0a6 6 0 1 1 12 0a12 12 0 1 1-24 0a18 18 0 1 1 36 0a26 26 0 1 1-52 0" fill="none" stroke="#b5651d" stroke-width="4" stroke-linecap="round"/>
+              <path d="M126 52q10 6 6 14t6 14t6 14" stroke="#2b2b2b" stroke-width="3" fill="none"/>
+              <path d="M56 46Q92 26 128 46L134 60Q126 66 118 60L114 52Q92 43 70 52L66 60Q58 66 50 60Z" fill="#2b2b2b"/>
+            </svg>
+          </div>
+
+          <div class="crew__text">
+            <p class="crew__lead">
+              Got a project, an internship, or a CTF crew that needs one more player?
+              <span>Give me a call.</span>
+            </p>
+            <ul class="signs">
+              <li>
+                <a class="sign" href="https://github.com/hanzmizuki" target="_blank" rel="noopener noreferrer">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.5-4-2-6-2.5m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+                  <span><small>GitHub</small>hanzmizuki</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER: deep sea ===== -->
+  <footer class="deep">
+    <div class="bubbles" aria-hidden="true"></div>
+
+    <!-- sea floor: coral, seaweed, sunken anchor, treasure -->
+    <svg class="seafloor" viewBox="0 0 1440 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <g class="weed-group" fill="none" stroke-linecap="round">
+        <path class="weed" d="M90 140q-14-22 0-44t0-46" stroke="#2b8a3e" stroke-width="7"/>
+        <path class="weed" d="M112 140q12-20 0-40t0-34" stroke="#37b24d" stroke-width="6"/>
+        <path class="weed" d="M470 140q-12-18 0-36t0-30" stroke="#2f9e44" stroke-width="6"/>
+        <path class="weed" d="M930 140q14-22 0-44t0-40" stroke="#2b8a3e" stroke-width="7"/>
+        <path class="weed" d="M1330 140q-14-22 0-44t0-48" stroke="#37b24d" stroke-width="7"/>
+        <path class="weed" d="M1352 140q12-20 0-38t0-30" stroke="#2f9e44" stroke-width="5"/>
+      </g>
+      <!-- coral -->
+      <path d="M260 140V96M260 112Q244 102 240 82M260 106Q276 96 282 74M248 92Q238 86 236 76" stroke="#ff6b6b" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <path d="M1180 140V100M1180 116Q1166 106 1162 90M1180 110Q1196 98 1200 80" stroke="#f06595" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <ellipse cx="1040" cy="132" rx="34" ry="20" fill="#e8590c"/>
+      <path d="M1014 130q8-10 16 0t16 0t16 0" stroke="#a33a05" stroke-width="2.4" fill="none"/>
+      <!-- sunken anchor -->
+      <g transform="rotate(-20 640 110)" fill="none" stroke="#6f8aa3" stroke-width="7" stroke-linecap="round">
+        <circle cx="640" cy="56" r="9"/>
+        <path d="M640 65V124M622 76H658M612 104Q616 126 640 126Q664 126 668 104"/>
+      </g>
+      <!-- half-buried treasure -->
+      <g>
+        <ellipse class="treasure-glow" cx="826" cy="116" rx="60" ry="26" fill="#ffd43b" opacity=".18"/>
+        <path d="M790 112L797 88H862L855 112Z" fill="#6b4426"/>
+        <rect x="790" y="110" width="66" height="28" rx="3" fill="#8b5a2b"/>
+        <rect x="804" y="110" width="7" height="28" fill="#f2c14e"/><rect x="836" y="110" width="7" height="28" fill="#f2c14e"/>
+        <ellipse cx="823" cy="111" rx="28" ry="7" fill="#f2c14e"/>
+        <g fill="#ffe066"><circle cx="812" cy="106" r="4"/><circle cx="826" cy="103" r="4.5"/><circle cx="838" cy="107" r="3.6"/></g>
+      </g>
+      <!-- sand -->
+      <path d="M0 136Q200 112 420 130T860 126T1440 128V170H0Z" fill="#1f4560"/>
+      <path d="M0 150Q260 132 560 146T1100 142T1440 148V170H0Z" fill="#183a52"/>
+    </svg>
+    <div class="container deep__inner">
+      <svg class="flag" viewBox="0 0 120 80" aria-hidden="true">
+        <rect x="2" y="0" width="4" height="80" rx="2" fill="#a8743f"/>
+        <g class="flag__cloth">
+          <path d="M6 4H112Q104 22 112 40Q104 58 112 62H6Z" fill="#161616"/>
+          <use href="#roger" x="32" y="6" width="54" height="54"/>
+        </g>
+      </svg>
+      <p class="deep__line">The One Piece is real.</p>
+      <p class="deep__copy">© <span id="year">2026</span> Kiro · drawn &amp; coded by hand with HTML, CSS &amp; anime.js</p>
+      <p class="deep__hint">psst... type <kbd>gomu</kbd> anywhere</p>
+    </div>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
